@@ -119,3 +119,28 @@ EOF
 $ROOTFS_DIR/usr/local/bin/proot \
 --rootfs="${ROOTFS_DIR}" \
 -0 -w "/root" -b /dev -b /sys -b /proc -b /etc/resolv.conf --kill-on-exit
+
+# Get the user name.
+read -p "Enter the user name: " user_name
+
+# Get the old password.
+read -s -p "Enter the old password: " old_password
+
+# Get the new password.
+read -s -p "Enter the new password: " new_password
+
+# Confirm the new password.
+read -s -p "Confirm the new password: " new_password_confirm
+
+# Check if the passwords match.
+if [ "$new_password" != "$new_password_confirm" ]; then
+  echo "The passwords do not match."
+  exit 1
+fi
+
+# Change the password.
+sudo passwd "$user_name" "$old_password" "$new_password"
+
+# Success message.
+echo "The password has been changed successfully."
+
